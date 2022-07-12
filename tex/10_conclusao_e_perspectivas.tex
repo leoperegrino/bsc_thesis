@@ -1,0 +1,25 @@
+% !TEX root = 0_tcc.tex
+\clearpage
+
+\section{Conclusão e Perspectivas}
+
+Como visto em, o processo de aplicação de um sistema híbrido é uma problemática
+com diversos fatores que a influenciam, desde a idealização até operação.  As
+fases de configuração, dimensionamento e operação passam todas por processos de
+otimização, cada uma com particularidades.  As métricas abordadas auxiliaram em
+decisões de desenho melhores.
+
+A utilização da mesma arquitetura para todas \acrshort{ann} pode ter sido uma
+das causas, visto que os fenômenos meteorológicos tem frequências diferentes,
+como início e fim do dia ou estações do ano. Melhorias podem ser feitas através
+da decomposição dos sinais, como no estudo de~\cite{Liu_2018}, citado
+anteriormente.  Para as redes da irradiação solar, em estudos futuros é possível
+conseguir melhores resultados realizando treinamento em dados apenas do período
+diurno. Para determinar momentos em que há sol, o ângulo azimutal pode ser
+indicador, considerando limites de nascer e pôr do sol. Uma função custo
+diferente, como a correlação, para o treinamento poderia minimizar a diferença
+de amplitude de sinal causada com a \acrshort{rmse}.
+
+Os resultados expuseram que,  quando aplicada em contextos mais simples, as
+estratégia se assemelham. A aplicação pode ser estudada com maior granularidade
+nos critérios para uma avaliação mais diversa.

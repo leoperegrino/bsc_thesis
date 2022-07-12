@@ -1,0 +1,34 @@
+% !TEX root = 0_tcc.tex
+\clearpage
+
+\section*{\centering Abstract}
+
+
+A hybrid system is composed of multiple energy sources. Those with weather
+dependency represent uncertainty in demand provision, which could compromise the
+functioning of the supplied services. Therefore, the system operator needs to be
+able to predict the energy balance and decide the best control strategy.
+
+Predicting multiple time series is a difficult task to be done analytically,
+hence artificial intelligence has been used as alternative. Historical data has
+to be processed but the models have great generalization capacity, adapting to
+the scenario.
+
+The present work aimed to study the feasibility of predictive analysis in hybrid
+systems using machine learning. Wind, solar and diesel sources were addressed
+along with energy storage. The data used was taken from the \acrshort{sonda} network,
+provided by \acrshort{inpe}, at the Petrolina meteorological station.
+
+Neural Network was used as supervised learning. The algorithm applied was the
+\emph{Recurrent Neural Network}. Python language was used with the help of
+libraries like \emph{numpy}, \emph{sklearn} and \emph{tensorflow}.
+
+Neural networks performed well in short-term horizons but
+degraded with longer timesteps. The predictive strategy had accuracy of
+73\% and was able to obtain similar results to traditional ones. There is still space
+for improvement in future work.
+
+\vfill
+\textbf{Keywords:} Time Series, Machine Learning, Hybrid Systems, Neural
+Networks
+\vfill

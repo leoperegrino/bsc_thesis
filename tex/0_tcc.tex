@@ -1,0 +1,126 @@
+% vim: foldmethod=marker
+% arara directives {{{
+% arara: pdflatex
+% arara: nomencl
+% arara: biber
+% arara: makeglossarieslite
+% arara: pdflatex
+% arara: pdflatex
+% }}}
+
+\documentclass[12pt]{article}
+
+% packages {{{
+\usepackage[left=3cm, right=2cm, top=3cm, bottom=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazilian]{babel}
+\usepackage{csquotes}
+\usepackage{todonotes}
+\usepackage{setspace}
+\usepackage{helvet}
+\usepackage{subcaption,caption}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{tikz,pgfplots}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage[acronym, nonumberlist]{glossaries}
+\usepackage{nomencl}
+\usepackage{mathtools,amssymb}
+\usepackage[maxcitenames=1,backend=biber,style=apa,citestyle=authoryear]{biblatex}
+\usepackage[titletoc, title]{appendix}
+\usepackage{listings}
+\usepackage{verbatim}
+\usepackage[bottom]{footmisc}
+% }}}
+
+\makenomenclature{}
+\reversemarginpar{}
+\setuptodonotes{disable}
+\addbibresource{13_bibliografia.bib}
+\pgfplotsset{compat=1.17}
+\usetikzlibrary{shapes.geometric, arrows}
+
+% acronyms {{{
+\makeglossaries
+\newacronym{aneel}{ANEEL}{Agência Nacional de Energia Elétrica}
+\newacronym{inpe}{INPE}{Instituto Nacional de Pesquisas Espaciais}
+\newacronym{sonda}{SONDA}{Sistema de Organização Nacional de Dados Ambientais}
+\newacronym{homer}{HOMER}{Hybrid Optimization Model for Multiple Energy Resources}
+\newacronym{hysys}{HySyS}{Hybrid Power System Balance Analyser}
+\newacronym{hres}{HRES}{Hybrid Renewable Energy System}
+\newacronym{ghi}{GHI}{Global Horizontal Irradiation}
+\newacronym{ws10m}{WS\_10m}{Wind Speed at 10 meters}
+\newacronym{nan}{NaN}{Not a Number}
+\newacronym{gpu}{GPU}{Graphical Processing Unit}
+\newacronym{api}{API}{Application Programming Interface}
+\newacronym{gru}{GRU}{Gated Recurrent Unit}
+\newacronym{ia}{IA}{Inteligência Artificial}
+\newacronym{ewt}{EWT}{Empirical Wavelet Transform}
+\newacronym{lstm}{LSTM}{Long Short Term Memory}
+\newacronym{bp}{BP}{Backpropagation}
+\newacronym{ffnn}{FFN}{Feedforward Neural Network}
+\newacronym{ann}{ANN}{Artificial Neural Network}
+\newacronym{rnn}{RNN}{Recurrent Neural Network}
+\newacronym{mlp}{MLP}{Multi Layer Perceptron}
+\newacronym{bptt}{BPTT}{Backpropagation Through Time}
+\newacronym{rmlp}{RMLP}{Recurrent Multi Layer Perceptron}
+\newacronym{relu}{ReLU}{Rectified Linear Unit}
+\newacronym{rmse}{RMSE}{Root Mean Squared Error}
+\newacronym{mse}{MSE}{Mean Squared Error}
+\newacronym{mae}{MAE}{Mean Absolute Error}
+\newacronym{lce}{LCE}{Levelized Cost of Energy}
+\newacronym{npv}{NPV}{Net Present Value}
+\newacronym{cc}{CC}{Cycle Charging}
+\newacronym{coe}{COE}{Cost of Energy}
+\newacronym{lol}{LOL}{Loss of Load}
+\newacronym{lolp}{LOLP}{Loss of Load Probability}
+\newacronym{lpsp}{LPSP}{Loss of Power Suply Probability}
+\newacronym{lole}{LOLE}{Loss of Load Expected}
+\newacronym{soc}{SOC}{State of Charge}
+\newacronym{dod}{DOD}{Depth of Discharge}
+\newacronym{kibam}{KiBaM}{Kinetic Battery Model}
+\newacronym{lf}{LF}{Load Following}
+\newacronym{la}{LA}{Level of Autonomy}
+\newacronym{mpc}{MPC}{Model Predictive Control}
+% }}}
+
+\begin{document}
+
+% nomenclature {{{
+\nomenclature{\(\mathbf{w}\)}{Matriz de pesos}
+\nomenclature{\(W\)}{Matriz de pesos com viés}
+\nomenclature{\(X\)}{Matriz de entradas}
+\nomenclature{\(\varphi(\cdot)\)}{Função não linear de ativação}
+\nomenclature{\(\eta\)}{Taxa de aprendizado}
+\nomenclature{\(\theta\)}{Característica do modelo}
+% }}}
+
+% renewcommand {{{
+\renewcommand{\cite}[2][]{\mbox{\textcite[#1]{#2} }}
+\renewcommand{\contentsname}{\centering Sumário}
+\renewcommand{\listfigurename}{\centering Lista de Figuras}
+\renewcommand{\acronymname}{\centering Siglas}
+\renewcommand{\listtablename}{\centering Lista de Tabelas}
+\renewcommand{\nomname}{\centering Nomenclatura}
+% }}}
+
+\doublespacing{}
+\pagenumbering{roman}
+\input{1_capa.tex}
+\input{2_resumo.tex}
+\input{3_abstract.tex}
+\onehalfspacing{}
+\input{4_toc.tex}
+\pagenumbering{arabic}
+\input{5_introducao.tex}
+\input{6_conceitos_preliminares.tex}
+\input{7_revisao_bibliografica_e_enunciado_do_problema.tex}
+\input{8_metodologia.tex}
+\input{9_estudo_de_caso.tex}
+\input{10_conclusao_e_perspectivas.tex}
+\input{11_referencias.tex}
+\input{12_apendice.tex}
+
+\end{document}

@@ -1,0 +1,48 @@
+% !TEX root = ../0_tcc.tex
+
+\begin{table}[ht]
+	\centering
+
+    \begin{tabular}{l p{10cm}}
+		\hline
+		Estratégia    &   Caracterização \\
+		\hline
+		\hline
+        Carregamento da Bateria &
+        A bateria carrega até o \acrshort{soc} máximo for atingido.
+        \\
+        \\
+        Descarregamento da Bateria &
+        A bateria descarrega até um dos casos:
+
+        O \acrshort{soc} mínimo para descarga for atingido.
+
+        A energia renovável é suficiente para atender a carga.
+
+        A carga líquida é igual ou maior que a potência mínima de operação do diesel.
+        \\
+        \\
+        \acrlong{lf} &
+        O gerador a diesel funciona para seguir a carga líquida, sem carga ou descarga para a bateria.
+
+        Um tempo mínimo de execução de diesel também é aplicado para evitar frequência alta de partida/parada.
+        \\
+        \\
+        \acrlong{cc} &
+        O gerador a diesel funciona para cobrir a carga líquida e carregar a bateria. O diesel continua durante o tempo mínimo de execução definido; depois disso, o o diesel continua funcionando até que uma das condições seja atendida:
+
+        O \acrshort{soc} desejado foi atingido.
+
+        A energia renovável é suficiente para atender a carga, carregando ou não
+        as baterias.
+        \\
+        \\
+        \emph{Peak Shaving} &
+        O diesel operara com potência total.
+
+        A Bateria é usada apenas para atender às flutuações momentâneas em torno da carga líquida \\
+        \hline
+	\end{tabular}
+
+	\caption{Estratégias de controle combinadas}\label{tbl:dispatch}
+\end{table}

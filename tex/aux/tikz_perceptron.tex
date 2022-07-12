@@ -1,0 +1,30 @@
+% !TEX root = ../0_tcc.tex
+
+\begin{figure}[h]
+  \centering
+
+  \scalebox{0.8}{
+  \begin{tikzpicture}
+    \tikzstyle{neuron}=[circle, draw=black, minimum size = 11mm]
+    \tikzstyle{missing}=[draw=none,opacity=0]
+
+	\node[neuron] (out)  at  (4,0)   {$H(\cdot)$};
+	\node[neuron] (bias)  at  (4,2)   {$b$};
+	\node[]       (resul)  at  (6,0)   {$\hat{y}$};
+    \draw[->]     (out)  --  (resul)  ;
+    \draw[->]     (bias)  --  (out)  ;
+
+    \foreach \style/\num [count=\i] in {neuron/1,neuron/2,missing/3,neuron/n}{
+      \node[\style, draw=none] (input\i)  at  (-1,3-\i*1.5)   {$x_\num$};
+	  \node[\style   ]         (nn\i)  at  ( 1,3-\i*1.5)   {$w_\num$};
+      \draw[\style,->]         (input\i)  --  (nn\i)  ;
+      \draw[\style,->]         (nn\i)  --  (out)  ;
+    }
+
+    \node[below of=nn2, node distance=1.5cm] {\LARGE$\vdots$};
+
+  \end{tikzpicture}
+}
+
+  \caption{Representação de um Perceptron com $n$ entradas. Fonte: própria.}\label{tikz:perceptron}
+\end{figure}

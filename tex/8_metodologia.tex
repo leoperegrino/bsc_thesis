@@ -1,0 +1,196 @@
+% !TEX root = 0_tcc.tex
+\clearpage
+
+\section{Metodologia}
+
+Foi considerado o sistema em regime quasi-estacionário, onde entre cada intervalo
+de tempo é suposto que não há alteração na configuração do \acrshort{hres}.
+
+A primeira etapa foi a avaliação e tratamento dos dados, de forma a encontrar
+uma entrada que não tendencie a rede. Foi avaliado a quantidade de
+\acrshort{nan}s, problema de falta de dados que pode comprometer a previsão.
+
+A carga a ser abastecida pelo sistema é suposta periódica ao longo de cada dia,
+com perfil de carga exibido na Figura~\ref{fig:perfil}. O perfil foi interpolado
+para garantir maior granularidade na análise da carga. Foi obtida a
+carga líquida renovável para cada instante da série temporal de acordo com a
+Equação~\ref{eq:netload}.
+
+\begin{equation}
+  \label{eq:netload}   E_{\text{ren}} = E_L - E_w - E_s
+\end{equation}
+
+\input{aux/fig_load.tex}
+
+Os modelos a seguir foram considerados para cálculo de potência cada componente
+do sistema.
+
+\subsection{Solar}
+
+A modelagem de um sistema fotovoltaico começa com o cálculo da irradiância
+incidente no plano dos painéis. A irradiância $I_{T}$ é a soma da direta
+$I_{b}$, difusa $I_{d}$ e a refletida $I_{r}$, proporcionais ao ângulo de
+inclinação, de acordo com a Equação~\ref{eq:solar:it}.
+
+\begin{equation}
+  \label{eq:solar:it}   I_T = I_b R_b + I_d R_d + (I_b + I_d) R_r
+\end{equation}
+
+A potência dos painéis depende da área ocupada $A_{PV}$ e a eficiência $\eta$
+dos módulos, de acordo com a Equação~\ref{eq:solar:p}.
+
+\begin{align}
+  \label{eq:solar:p}    P_{PV} &= I_T \eta A_{PV} \\
+  \label{eq:solar:etam}    \eta_m &= \eta_r [1 - \beta (T_c - T_r)] \\
+  \label{eq:solar:tc}   T_c &= T_a + \left(\frac{T_{\text{NOCT}}-20}{800}\right) I_T
+\end{align}
+
+O painel considerado foi o \emph{YGE 60 Cell Series 2}, com características na
+Tabela~\ref{tbl:painel}.
+
+\input{aux/tbl_painel.tex}
+
+\subsection{Eólica}
+
+Para velocidade do vento medidas em uma altura diferente do cubo do aerogerador,
+é preciso corrigir de acordo com a lei de cisalhamento vertical. As medições
+mais próximas à superfície são menores devido ao à interação com o solo. A
+medida que ascende-se, a velocidade torna-se logarítmicamente maior de acordo
+com a Equação~\ref{eq:wind:pl}.
+
+\begin{equation}
+  \label{eq:wind:pl}  V_z = V_i \frac{Z}{Z_i}^x
+\end{equation}
+
+A curva de potência de um aerogerador é deduzida a partir de dados de campanhas
+de medição do recurso eólico local.  Quando os dados disponíveis para o sistema
+híbrido tem frequência diferente do que foi usado na campanha de medição, a
+curva de potência original não é mais aplicável. Pode ser feita a correção da
+curva introduzindo componentes estocásticas e determinísticas de acordo com o
+modelo de Von-Kármán para rajadas de vento contínuas. Por motivos de
+simplificação, foi considerado que a curva foi deduzida na mesma frequência
+amostral da aplicação do sistema, dispensando correção.
+
+A Turbina considerada foi o \emph{Bergey Excel-10}, com curva de potência na
+Figura~\ref{fig:wind:power}. A curva também foi interpolada.
+
+\input{aux/fig_bergey.tex}
+
+\subsection{Diesel}
+
+O grupo diesel ser modelado como uma função linear é uma suposição razoável de
+acordo com resultados experimentais, como visto
+em~\cite[cap.~6.1]{manwell2006hybrid2}. O coeficiente linear da função é o
+consumo sem carga, com a máquina parada. A inclinação da reta é dada pela taxa
+de consumo de combustível por unidade de potência de saída.  De acordo
+com~\cite{Nema_2009}, para determinar a capacidade nominal do gerador diesel a
+ser instalado, caso estiver diretamente conectado à carga, então o capacidade
+nominal do gerador deve ser pelo menos igual à carga máxima.
+
+\begin{align}
+  \label{eq:diesel} F &= a + b P \\
+  \nonumber a &= \text{consumo sem carga}\\
+  \nonumber b &= \text{consumo por potência ($\ell$/kWh)}
+\end{align}
+
+O gerador diesel considerado foi o exemplo apresentado
+em~\citeauthor{manwell2006hybrid2}, com características na
+Tabela~\ref{tbl:diesel}.
+
+\input{aux/tbl_diesel.tex}
+
+\subsection{Bateria}
+
+A capacidade do banco de baterias é dimensionado em função do tempo de
+inatividade das outras fontes, referido como dias de autonomia.  Normalmente é
+assumido 2 ou 3 dias de autonomia, ou seja: as baterias tem capacidade para
+sustentar sozinhas o consumo por esse período.
+
+As baterias são limitadas em um estado máximo e um mínimo de carga, não podendo
+ultrapassá-los, como na Equação~\ref{eq:bat:lim}. O estado de carga pode ser
+atualizado pelas equações~\ref{eq:bat:y1} e~\ref{eq:bat:y2} respeitando o modelo cinético de
+baterias, \acrlong{kibam}.
+
+\begin{equation}
+  \label{eq:bat:lim}           \text{SOC}_{\text{min}} \leq \text{SOC}(t)   \leq \text{SOC}_{\text{max}}
+\end{equation}
+
+O \acrshort{kibam} consiste em admitir que um parte da capacidade está a
+disposição para ser consumida imediadamente (\emph{available charge}) e outra
+está confinada (\emph{bound charge}). Tal fato decorre da inércia da bateria em
+transformar energia química em energia elétrica prontamente disponível para o
+consumo.  O modelo restringe a mudança de carga de acordo com a
+equação~\ref{eq:bat:y1} para a carga confinada e a equação~\ref{eq:bat:y2} para
+carga disponível. Cada bateria possui um parâmetro $c$ que representa o
+percentual de carga disponível e outo $k$ que mensura a velocidade de conversão
+de energia.
+
+\begin{align}
+  \label{eq:bat:y1}    q_a(t+1) &= q_a r + \frac{(q_a k' c - i) (1 - r) - i c (k' t - 1 + r)}{k'} \\
+  \label{eq:bat:y2}    q_b(t+1) &= q_b r + q_t (1 - c) (1 - r) - \frac{i (1 - c) k' t - 1 + r}{k'}
+\end{align}
+
+A bateria usada foi a \emph{Trojan Solar SPRE 12 225}, com especificações na
+Tabela~\ref{tbl:bateria}.
+
+\input{aux/tbl_bateria.tex}
+
+\subsection{Rede Neural}
+
+A metodologia para previsão foi usar 36 instantes passados de tempo para prever
+o comportamento meteorológico dos próximos 36 instantes.  Para isso, 36 redes
+neurais foram treinadas, cada uma com o objetivo de prever um instante futuro
+específico. A rede 1 prevê o instante $t+1$, a rede 2 prevê o instante $t+2$ e
+assim em diante até a trigésima sexta. Todas recebem a mesma entrada, os 36
+instantes passados, como ilustrado na Figura~\ref{tikz:nns}.  As séries
+temporais usadas foram a de radiação solar e a velocidade do vento, cada uma com
+suas respectivas previsões, totalizando 72 \acrshort{ann}s.
+
+\input{aux/tikz_nns.tex}
+
+A arquitetura para todas redes foi a mesma, composta células \acrshort{rnn}
+simples. O modelo foi feito utilizando o \emph{Keras}. A ferramenta é uma
+\acrshort{api} do \emph{TensorFlow}, biblioteca de aprendizado de máquina
+desenvolvida pelo \emph{Google}.  Para treinamento e teste da rede foi usado a
+plataforma \emph{Google Colab} que permite computação em nuvem com
+disponibilidade de \acrshort{gpu}. Outras arquiteturas foram avaliadas como a
+\acrshort{lstm} mas, como obteve resultados semelhantes à \acrshort{rnn}, foi
+escolhida a mais simples.
+
+Os dados que entram na rede foram normalizados: subtraídos do menor valor e
+divididos de pela diferença entre máximo e mínimo. O processo ilustrado pela
+Equação~\ref{eq:minmax} tem objetivo de limitar os dados no intervalo de [0, 1].
+Dessa forma, evita-se problemas de cálculo numérico como \emph{overflow} durante
+o processo de treinamento e o gradiente descendente é capaz de convergir muito
+mais rápido.
+
+\begin{equation}
+  \label{eq:minmax}   x_{i}' = \frac{x_{i} - x_{\text{min}}}{x_{\text{max}} - x_{\text{min}}}
+\end{equation}
+
+Além das células \acrshort{rnn}, também foi usado \emph{dropout}. A técnica
+consiste em aleatoriamente desativar um percentual determinado de neurônios de
+uma camada. Os neurônios desativados não passam informação à próxima camada.
+Dessa forma, no processo de treinamento, a rede aprende a não depender de cada
+neurônio individualmente, reduzindo a probabilidade de um nodo enviesar toda a
+\acrshort{ann}. O sumário da rede é exibido na Tabela~\ref{tbl:model}.
+
+\input{aux/tbl_nn.tex}
+
+\subsection{Sistema Híbrido}
+
+Foi considerado um sistema abastecido por 10 módulos fotovoltaicos, 1
+aerogerador, 1 gerador diesel e banco de bateria com 1 dia de autonomia, como
+mostrado na Tabela~\ref{tbl:sistema}.
+Dessa forma, a tensão do barramento de corrente contínua ficou em 300 volts de
+fotovoltaica mais 220 volts do aerogerador, totalizando 520.
+
+\input{aux/tbl_sistema.tex}
+
+Foi feita uma comparação considerando a \acrshort{lpsp} para as duas
+estratégias: \acrshort{lf}.  O gerador diesel em
+\acrshort{lf} entrará em operação caso a bateria não suprir o déficit,
+acompanhando a carga líquida.  Em \acrshort{cc}, quando há déficit de energia, o
+gerador diesel é ligado na máxima potência disponível que não gere excesso,
+escoando a sobra para a bateria. Para manter a vida útil do gerador, tempos
+mínimos de operação foram considerados.

@@ -1,0 +1,181 @@
+% !TEX root = 0_tcc.tex
+\clearpage
+
+\section{Revisão Bibliográfica e Enunciado do Problema}
+
+Uma dos maiores dificuldades de implementação de um sistema híbrido de energia é
+a insegurança de abastecimento. Como as fontes renováveis dependem de efeitos
+meteorológicos, é comum o super dimensionamento da aplicação.  Tal prática
+resulta em um desenho de sistema custoso mas com vista a garantir a
+disponibilidade elétrica, como visto em~\cite{Deshmukh_2008}.
+
+Ainda em~\cite{Deshmukh_2008}, é visto que abordagem mais frequente para estimar um sistema
+híbrido é avaliar cada fonte separadamente para depois as analisar em conjunto.
+Caso as previsões individuais sejam acuradas o suficiente, a previsão conjunta
+será a ótima.
+
+~\cite[cap. 3]{kaldellis_2010} propõe que o problema de desenho de um sistema
+híbrido ideal pode ser dividido em 4 etapas: síntese, design, operação e
+otimização. A Tabela~\ref{tbl:metodo} sintetiza cada uma das etapas propostas. A
+otimização pode ser aplicada em todas as outras etapas de forma a melhorar o
+resultado. O problema de operação é crítico, dado que existem muitos modos
+alternativos de operar um sistema e satisfazendo diferentes métricas
+operacionais.
+
+\input{aux/tbl_metodo.tex}
+
+Como visto em~\cite{Kusakana_2013} existem vários métodos de dimensionamento de
+sistemas híbridos solar-eólico tais como: suprir a média mensal anual;
+considerar o mês mais desfavorável; evitar a probabilidade de perda no
+fornecimento de energia (\acrshort{lpsp}); métodos de dimensionamento usando
+software; entre outros.
+
+Em~\cite{Deshmukh_2008} também é feita uma revisão bibliográfica sobre a
+modelagem de componentes, desenho e métricas de \acrlong{hres}
+(\acrshort{hres}).  Foi observado que aproximadamente 90\% dos estudos
+realizados são sobre aspectos de modelagem ou econômicos.  Em relação às fontes
+presentes, energia fotovoltaica com eólica representam 56\% do número de
+publicações, seguido por \acrshort{hres} de fotovoltaica com 23\% em seguida de
+eólica com 21\%.  Outras combinações híbridas revisadas em fase de pesquisa
+incluem hidro, biomassa, célula de combustível e lixo municipal.
+
+O consumo de combustível é um dos componentes mais onerosos da vida útil de um
+gerador a diesel.  Portanto, determinar o melhor momento para iniciar e parar o
+diesel é um fator crucial para a otimização.  De acordo
+com~\cite{ashari1999optimum}, essas operações são geralmente feitas com base em
+certa porcentagem de demanda do sistema ou o estado de carga da bateria
+(\acrshort{soc}).  No estudo, para determinar o valor ótimo de arranque do
+diesel, realizou-se a comparação dos custos operacionais do gerador diesel e da
+bateria.  O autor concluiu que operar o sistema em uma estratégia que considere
+o custo de uso da bateria, o custo de consumo do combustível diesel e o perfil
+de carga fornece um menor custo de operação.
+
+No estudo paramétrico de~\cite{elhadidy2000parametric}, ficou evidente que a
+geração de energia a diesel é consideravelmente menor com inclusão banco de
+baterias. Verificou-se que, em média, com a presença de 3 dias de autonomia da
+bateria, cerca de 27\% da carga anual é alimentada a partir do sistema diesel.
+Com a eliminação do armazenamento da bateria, cerca de 48\% da carga anual
+precisa ser fornecido pelo sistema diesel.
+
+~\cite{gupta2011modelling} propõe um algoritmo de controle para operação
+otimizada de com estratégias de controle combinadas.  Cinco estratégias podem
+ser usadas, são elas: carga da bateria, descarga da bateria, \acrlong{lf},
+\acrlong{cc} e Peak Shaving. A Tabela~\ref{tbl:dispatch} descreve cada uma das
+estratégias. O algoritmo apresentado foi capaz de projetar com eficiência um
+sistema de eletrificação ótimo. Apesar das flutuações de radiação solar, o
+gerador a diesel é capaz de manter a potência constante.
+
+\input{aux/tbl_estrategias.tex}
+
+Segundo~\cite{homermanual}, a estratégia de \acrlong{cc} consiste em operar o
+gerador com toda potência disponível e escoar a energia líquida para cargas de
+menor prioridade, como baterias.  A estratégia de \acrlong{lf} consiste em
+colocar o gerador diesel para apenas acompanhar a carga primária, apenas
+produzindo o suficiente para o abastecimento. As cargas de menor prioridade
+nessa situação ficam a cargo das fontes renováveis.
+
+Em~\cite{tazvinga2014energy} é empregado o \acrlong{mpc}\footnote{Modelo de
+Controle Preditivo} (\acrshort{mpc}), um processo de controle que satisfaz um
+grupo de restrições do sistema usando uma função de custo definida
+explicitamente pelo usuário.  O trabalho faz uma comparação entre modelos de
+\emph{loop} fechados e abertos.  O modelo de \emph{loop} aberto não possuem um
+mecanismo de \emph{feedback} entre as predições de cada \emph{timesteps}, ou
+seja: $\hat{y}_{t}$ e $\hat{y}_{t+1}$ não são relacionados.  A ausência de
+\emph{feedback} pode tornar o sistema vulnerável a perturbações nas entradas.
+
+Um \acrshort{mpc} em \emph{loop} fechado é proposto para
+um sistema híbrido solar-eólica-diesel-bateria, com as seguintes restrições:
+\begin{itemize}
+	\item demanda de carga em cada momento é satisfeita
+	\item energia fornecida pelo gerador diesel é minimizada
+	\item o sistema de \emph{loop} fechado é robusto com relação a distúrbios na demanda de carga e saída de energia renovável
+\end{itemize}
+
+Duas simulações foram feitas em cada modelo de \emph{loop}, uma com perturbações
+outra sem. No cenário sem perturbações, a performance dos dois modelos é muito
+similar, o consumo de diesel é aprochadamente igual. No outro cenário é suposto
+que o sistema encontra um condição ruim: a demanda de carga é 20\% maior que o
+esperado e a energia eólica e solar são, cada uma, 20\% menor que o esperado.
+Foi percebido que o desempenho do sistema de \emph{loop} fechado é geralmente
+melhor, indicando que sua robustez com relação a distúrbios é superior ao
+sistema de \emph{loop} aberto.  A razão é que o MPC é capaz de prever estados
+futuros com base em \emph{feedback} dos estados atuais, influenciados por
+distúrbios.  Em contraste, o controle de \emph{loop} aberto é incapaz de
+responder a perturbações imprevisíveis e simplesmente começa o gerador diesel
+quando a demanda de carga é maior do que o esperado Embora \acrshort{mpc} pode
+ser sofisticada para aplicações domésticas individuais, ainda pode ser benéfico
+para aplicações industriais.
+
+De forma a automatizar o processo de dimensionamento, alguns softwares foram
+desenvolvidos, como \acrshort{homer}, IHOGA e o Hybrid2.~\cite{Upadhyay_2014}
+faz um comparativo de entradas e saídas de cada programa. A
+Tabela~\ref{tbl:soft} apresenta as diferenças verificadas.
+
+\input{aux/tbl_software.tex}
+
+Em matéria de inteligência artificial,~\cite{Upadhyay_2014} sumariza métodos
+usados na literatura para o dimensionamento de um \acrshort{hres}. Todos estudos
+abordaram a partir de uma perspectiva econômica, com otimização de indicadores
+como \acrshort{lce}, custo de operação total, custo total do sistema ou custo de
+energia. As entradas de cada modelo limitam-se majoritariamente a dados
+periódicos de radiação solar e velocidade do vento. Segundo o autor, essa
+abordagem através de \acrshort{ia} pode ser programada para convergir para a
+melhor solução mas pode tornar-se ineficiente com o aumento de parâmetros do
+sistema.
+
+Em redes neurais, a abordagem é altamente dependente dos dados a serem
+processados. Além de ser necessário quantidade, a qualidade dos dados é
+determinante para as previsões. Séries temporais possuem características que,
+quando não tratadas previamente, podem enviesar o resultado.  Apesar dos modelos
+serem muito versáteis e capazes de aprender padrões, ainda sim é benéfico
+realizar tratamentos para melhorar a performance de previsões temporais, de acordo
+com~\cite{Zhang_2005}.  As estações do ano representam variações em intervalos
+de tempo fixos, chamada sazonalidade. Possuir dados durante todo o ano permite o
+modelo aprender esse padrão. As mudanças climáticas representam uma tendência de
+crescimento e decrescimento constante em alguns parâmetros.
+
+A literatura de \acrshort{ia} aplicada a fontes renováveis é mais extensa em
+cada fonte individualmente, quando comparada à disponível em \acrshort{hres}.
+Em~\cite{Liu_2018} é avaliada a predição de velocidade do vento através de redes
+neurais \emph{Elman} e \acrshort{lstm}. O trabalho apresentou a decomposição do
+sinal do vento em frequências diferentes através da transformada empírica
+\emph{wavelet}. A \acrshort{ewt} é composta de filtros de banda da transformada
+de Fourier, com vista a separar padrões e comportamento estocástico. A
+combinação desses algoritmos mostrou resultados satisfatórios para previsão de
+múltiplos intervalos de tempo.
+
+~\cite{elsheikh2019modeling} realizou uma revisão de trabalhos usados para a
+modelagem solar através de redes neurais. Aplicações de \acrshort{ann} em
+energia solar foram feitas em áreas como térmica, fotovoltaicas e
+concentradores. Os benefícios incluem capacidade de generalização, evitar
+resolver modelos matemáticos complexos, reduzir tempo gasto em modelagem e
+reduzir gastos com experimentos.
+
+\subsection{Enunciado}
+
+Como visto, conciliar as particularidades de cada fonte em um sistema híbrido é
+uma tarefa sujeita a diversos fatores. Mesmo após o dimensionamento da aplicação
+ainda é necessária a operação adequada para manutenção de expectativa de vida
+dos componentes e para suprir a demanda.
+
+A problemática a ser abordada em seguida será centrada em um consumidor com
+necessidade de alta disponibilidade de energia. Devido a esse cenário, será
+usada a métrica de probabilidade de perda de oferta (\acrshort{lpsp}) para avaliar as estratégias de \acrlong{lf} e
+\acrlong{cc}.  A \acrlong{lpsp}, como citada em~\cite{Upadhyay_2014}, pode ser
+descrita pela Equação~\ref{eq:lpsp}, onde DE é o déficit energético e
+$P_{\text{load}}$ é a potência demandada pela carga.
+O sistema híbrido usado
+será constituído de fontes renováveis solar e eólica, banco de baterias e
+gerador diesel, visto que esse \acrshort{hres} é amplamente explorado na
+literatura.
+
+\begin{equation}
+	\text{LPSP} = \frac{\sum_{t=1}^{T} \text{DE}(t)}{\sum_{t=1}^{T} P_{\text{load}}{(t)}\Delta t}
+	\label{eq:lpsp}
+\end{equation}
+
+Será realizada uma análise preliminar sobre os dados meteorológicos, levando em
+consideração a estação meteorológica de Petrolina da Rede \acrshort{sonda}
+de~\cite{inpe:sonda}.  Para as previsões, redes neurais recorrentes simples
+serão empregadas. Os resultados das previsões serão avaliados para decidir sobre
+a estratégia de controle mais adequada, \acrlong{cc} ou \acrlong{lf}.

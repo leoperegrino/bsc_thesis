@@ -1,0 +1,35 @@
+% !TEX root = ../0_tcc.tex
+
+\begin{table}[ht]
+	\centering
+	\caption{Modelo treinado}\label{tbl:model}
+	\begin{subtable}{\textwidth}
+		\centering
+		\caption{Arquitetura}\label{tbl:model_arq}
+		\begin{tabular}{c c c}
+			\hline
+			Camada   &   Shape de saída    &   Parâmetros\\
+			\hline
+			\hline
+			SimpleRNN&   (None, 36, 64)   &   4224      \\
+			Dropout  &   (None, 36, 64)   &   0         \\
+			SimpleRNN&   (None, 32)       &   3104      \\
+			Dropout  &   (None, 32)       &   0         \\
+			Dense    &   (None, 1)        &   33        \\
+			\hline
+		\end{tabular}
+	\end{subtable}
+	\\ \vspace{1cm}
+	\begin{subtable}{\textwidth}
+		\centering
+		\caption{Parâmetros}\label{tbl:model_param}
+		\begin{tabular}{c c c}
+			\hline
+			Total de parâmetros & Parâmetros treináveis & Parâmetros não treináveis \\
+			\hline
+			\hline
+			7,361        &    7,361         & 0 \\
+			\hline
+		\end{tabular}
+	\end{subtable}
+\end{table}

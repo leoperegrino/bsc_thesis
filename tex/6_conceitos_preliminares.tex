@@ -1,0 +1,180 @@
+% !TEX root = 0_tcc.tex
+\clearpage
+
+\section{Conceitos Preliminares}
+
+Segundo~\cite{haykin2009}, no campo de \acrlong{ia} (\acrshort{ia}), uma rede neural é um modelo de
+processamento paralelo massivo constituído por uma unidade base, chamada de
+nêuron, capaz de armazenar, computar e comunicar informação à seus pares.
+
+Uma \acrshort{ann} é dividida em camadas\footnote{layers} de neurônios onde cada uma conecta a
+anterior com a seguinte. Quando formado por várias camadas, é chamado de
+aprendizado profundo\footnote{Deep Learning}, em referência à distância entre
+camada de \emph{input} e de \emph{output}.
+
+As \acrshort{ann}s possuem várias vantagens em matéria de aprendizado de máquina.
+Na forma de aprendizado supervisionado --- apresentadas à dados anteriores ---
+são capazes de modelagem preditiva com grande acurácia.  Quando novos dados são
+inseridos no modelo, a rede ajusta seus parâmetros se adaptando.
+Devido à função de ativação presente no algoritmo, a rede pode mapear relações
+não lineares de alta complexidade.
+
+\subsection{Perceptron}
+
+Um Perceptron é a forma mais simples de uma rede neural. É um algoritmo
+para classificação binária, usado para distinguir se uma
+entrada pertence a um grupo ou não.
+
+O algoritmo consiste em um nêuron com duas características: uma matriz de peso,
+representado por $\mathbf{w}$, e um valor de viés, representado por $b$. As
+entradas, $x_n$, do modelo são multiplicadas por seus respectivos pesos, somadas entre
+si e com o viés. A operação até aqui consiste em uma aplicação linear e pode ser
+matematicamente representada como na Equação~\ref{eq:perceptron}.
+
+\begin{equation}
+	f(x) = \mathbf{w} \cdot \mathbf{x} + b
+	\label{eq:perceptron}
+\end{equation}
+
+Em seguida, o resultado é passado para uma função ativadora, no caso do
+Perceptron é usado a função degrau\footnote{função de Heavside},
+Equação~\ref{eq:heavside}. Essa ativação funciona como separador de positivos e
+negativos.
+
+\begin{equation}
+	H(x) = \begin{cases}
+		1 & x > 0,\\
+		0 & \text{caso contrário}
+	\end{cases}
+	\label{eq:heavside}
+\end{equation}
+
+O processo pode ser resumido na Equação~\ref{eq:perceptron2}.  O resultado é o
+valor previsto $\hat{y}$, onde 0 e 1 significam cada classe distinta a ser
+separada.
+
+\begin{equation}
+	\hat{y} = H\left(\sum_{i=1}^{N} w_i \cdot x_i + b\right)
+	\label{eq:perceptron2}
+\end{equation}
+
+A Figura~\ref{tikz:perceptron} representa visualmente o processo descrito.
+
+\input{aux/tikz_perceptron.tex}
+
+Inicialmente, são atribuídos valores aleatórios aos pesos e ao viés.  É preciso
+ajustar os parâmetros de forma que eles mapeiem adequadamente o conjunto entrada
+com o saída.  A solução mais usada é aplicar a aproximação numérica
+por gradiente descendente.
+
+\subsection{Gradiente Descendente}
+
+O método consiste em alterar os pesos a cada iteração de modo a minimizar uma
+função custo pré-definida. A função custo mede o quão distante os pesos
+atuais mapearam a entrada do resultado esperado. Comumente é usado o desvio
+quadrático médio,
+representado na Equação~\ref{eq:rmse},
+onde $\hat{y}_{i}$ é o valor previsto e $y_{i}$ é o valor real em uma
+i-ésima entrada.
+
+\begin{equation}
+	J = \frac{1}{2n} \sum_{i=0}^{n} {(\hat{y}_i - y_i)}^2
+	\label{eq:rmse}
+\end{equation}
+
+É desejado minimizar o valor de $J$ que, nesse caso, é uma função de
+$\mathbf{w}$ e $b$. De forma a simplificar os parâmetros, pode se considerar o
+viés como parte de $\mathbf{w}$ e sempre o multiplicar por um. Em notação
+matricial fica representado como na Equação~\ref{eq:matriz}.
+
+\begin{equation}
+	W^{T} X =
+	\begin{bmatrix}
+		\theta_0 & \theta_1 & \theta_2 & \cdots & \theta_{n_x}
+	\end{bmatrix}
+	\begin{bmatrix}
+		1 \\ x_1 \\ x_2 \\ \vdots \\ x_{n_x}
+	\end{bmatrix}
+	\label{eq:matriz}
+\end{equation}
+
+Na Equação~\ref{eq:matriz}, $\theta$ são os parâmetros a serem ajustados e
+$\theta_0$ é equivalente ao viés.
+
+É sabido que a derivada de uma função é equivalente a inclinação da reta
+tangente e quando positiva indica crescimento.  Logo, o problema em questão
+precisa diminuir $W$ quando a derivada do custo for positiva e aumentar quando
+ela for negativa, pois em ambas situações o custo é minimizado.
+
+A situação é ilustrada na Figura~\ref{tikz:gd}. A linha vermelha
+representa o caminho das iterações e a preta as derivadas pontuais.
+
+\input{aux/tikz_gd.tex}
+
+A Equação~\ref{eq:gd} representa a generalização do cálculo numérico para o
+parâmetro $\theta_i$ de uma função custo qualquer. Cada
+iteração atualiza a matriz de pesos $W$ de acordo com sua direção de
+decrescimento.  O parâmetro $\eta$ é inserido para regular a intensidade da
+alteração, chamada taxa de aprendizado\footnote{Learning Rate}.
+
+\begin{equation}
+	\theta_{i+1} \leftarrow \theta_i-\eta \frac{\partial J}{\partial \theta_i}(\theta_0, \ldots, \theta_n)
+	\label{eq:gd}
+\end{equation}
+
+\subsection{Redes Neurais}
+
+Uma rede neural é a generalização do Perceptron para uma quantidade qualquer de
+neurônios e uma função ativadora qualquer. Por esse motivo, a rede pode também ser
+chamada de Perceptron Multicamada ou \acrshort{mlp}\footnote{\acrlong{mlp}}.
+
+O objetivo da função ativadora no \acrshort{mlp} é introduzir não linearidade no
+algoritmo. Caso não fosse aplicada entre os neurônios, a rede seria uma composição
+de aplicações lineares, o que é equivalente a uma única aplicação. Funções
+ativadoras comuns são a função logística, tangente hiperbólica e a
+\acrlong{relu} (\acrshort{relu}).
+
+\input{aux/tikz_nn.tex}
+
+O processo de treinamento é composto por duas fases, a de \emph{Feedforward} e
+a de \emph{\acrlong{bp}} (\acrshort{bp}).  A primeira, é apenas calcular aplicação linear
+dos pesos e ativação da entrada até a saída da rede. A segunda consiste em
+propagar de forma reversa os gradientes, da saída até a entrada.
+
+Para realizar a \acrshort{bp}, é preciso encontrar a derivada do custo
+em relação cada nodo rede. Como cada neurônio é uma aplicação do anterior, a
+taxa de variação é calculada através da regra da cadeia, como visto na
+Figura~\ref{tikz:bp}.
+
+\input{aux/tikz_bp.tex}
+
+Propagando todas as variações, os pesos da rede são atualizados de acordo com a
+Equação~\ref{eq:gd}.
+
+\subsection{Redes Neurais Recorrentes}
+
+Em séries temporais, o valor a ser previsto num determinado tempo $t$ possui
+algum grau de dependência com os valores anteriores, não sendo apenas função do
+valor $t$. Não é esperado que a irradiação ou a velocidade do vento mudem
+bruscamente, mesmo que variações aconteçam.
+
+Uma rede neural comum apenas identifica padrões pelo valor da entrada --- o
+instante de tempo nesse caso --- sendo portanto inadequada para situações onde a
+proximidade de cada entrada é relevante.
+
+Em tal situação, é preciso implementar uma forma de dependência entre entradas
+próximas.  A solução é feita na forma de redes neurais recorrentes. Uma rede
+recorrente passa o cálculo de uma predição em $t$ para o próximo cálculo
+em $t+1$. A \acrshort{rnn} pode ser representada como na Figura~\ref{tikz:rnn}.
+
+\input{aux/tikz_nn_recurrent.tex}
+
+O gradiente descendente passa a ser aplicado ao longo de \emph{timesteps}
+diferentes: \acrshort{bp} através do tempo ou \acrlong{bptt} (\acrshort{bptt}).
+Para redes muito profundas, o processo de treinamento com \acrshort{bp} acaba
+por gerar um problema chamado de desaparecimento de
+gradiente\footnote{vanishing gradient}. Calcular vários gradientes seguidos o
+faz tender a 0, visto que o valor entre cada camada possui pequena diferença.
+Por isso, treinar tais redes se torna inviável. Alguns modelos propõem soluções
+na forma de células que carregam informação entre vários \emph{timesteps} como a
+\acrshort{lstm}, desenvolvida por~\cite{hochreiter1997long}.

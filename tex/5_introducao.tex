@@ -1,0 +1,92 @@
+% !TEX root = 0_tcc.tex
+\clearpage
+
+\section{Introdução}
+
+\subsection{Eletricidade no Meio Urbano e Rural}
+
+Atualmente, o perímetro urbano costuma ter disponibilidade elétrica de forma
+ininterrupta. Entretanto, a medida em que afasta-se dos centros urbanos,
+o acesso à energia se torna cada vez mais difícil. Em 2018, 668 milhões de
+pessoas vivem no campo sem acesso à eletricidade, de acordo com~\cite[pág. 4]{irena:sdg7}.
+A disparidade pode ser percebida quando vista por imagens de
+satélite, como na Figura~\ref{fig:terra}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../img/nasa.jpg}
+    \caption{Visualização da eletrificação no mundo. Fonte:~\cite{nasa:earth}}\label{fig:terra}
+\end{figure}
+
+De forma a contornar tais limitações é comum a prática de geração de energia
+localmente. A aplicação pode ser feita de forma isolada --- nenhuma conexão com
+rede externa é feita --- ou com auxílio parcial da rede.  Quando feita
+desconectada, também conhecida como \emph{off-grid}, é comum em localizações
+remotas com difícil acesso à linhas de transmissão. Atualmente no Brasil,
+existem 212 localidades isoladas, a maioria na região Norte segundo~\cite{ons:iso},
+visto que é a mais densamente vegetada.
+
+Também pode ser feito o abastecimento parcial do consumo.  No Brasil, a
+resolução 786 institui a geração distribuída, com visto
+em~\cite{aneel:ren482}.  De acordo com a resolução, é possível converter geração
+excedente em créditos na concessionária respectiva.  Dessa forma, é possível
+tornar rentável aplicações menores que não fazem uso de baterias.  De acordo com
+o Balanço Energético Nacional em~\cite{epe:ben2020}, mini e micro geração
+distribuída tiveram um crescimento de 169\% em relação ao ano anterior.
+
+\subsection{Sistemas Híbridos}
+
+Para tornar-se sustentável fora da rede convencional, \emph{off-grid}, diversas
+fontes podem ser usadas em conjunto. Um grupo de tais fontes constitui um
+sistema híbrido. As suas aplicações vão além de residenciais, sendo usadas
+também para serviços de baixo custo de operação e manutenção. Sistemas
+eletrônicos embarcados como sinalização de trânsito, iluminação pública ou
+pequenas redes de rádio-telefonia; bombeamento e dessalinização de água por
+parte de moradores de zonas pobres são alguns exemplos como mostrado
+em~\cite[cap. 1.4]{kaldellis_2010}.
+
+Sistemas híbridos são comumente compostos por fonte eólica e solar e dependem de
+questões meteorológicas sendo, portanto, inadequados para encarregar-se de
+manter oferta constante de serviços como hospitais.  A diversificação é usada
+para mitigar possíveis intermitências no fornecimento, ao aproveitar a
+complementariedade entre as fontes.  Como resguardo, as deficiências são
+contornadas com banco de baterias ou outra fonte estável, feito diesel.
+
+Fontes intermitentes, isto é, variam no tempo, são séries temporais com vários
+parâmetros.  Como o conjunto, além da complexidade, possui extrema importância para o
+abastecimento elétrico, faz-se necessário modelar e prever seu comportamento,
+mitigando possíveis interrupções.
+
+\subsection{Inteligência Artificial}
+
+Na última década, pôde-se perceber um crescimento acentuado do uso de
+inteligência artificial. Em especial, as chamadas redes neurais artificiais,
+\acrlong{ann} (\acrshort{ann}), foi um dos métodos que mais se
+destacaram.  O modelo possui esse nome pois assemelha-se ao cérebro humano,
+composto por inúmeros neurônios interconectados capazes de aprender a partir do
+ambiente.  O algoritmo baseia-se no classificador Perceptron
+de~\cite{rosenblatt1958perceptron}.
+
+\acrshort{ann} por ser computacionalmente custosa é dependente do desenvolvimento de
+máquinas capazes de realizar. Recentemente, com a expansão da computação em
+nuvem, \emph{cloud computing}, e grandes \emph{data centers}, \acrshort{ann}
+tornaram-se acessíveis.  O algoritmo tem alta capacidade de generalização e, por
+isso, é usado em situações de alta complexidade, como: preços de ações,
+meteorologia, demanda por energia, entre outros.
+A desvantagem de métodos baseados em redes neurais é devido à dificuldade de
+interpretação sobre os parâmetros aprendidos pelo algoritmo.
+
+\subsection{Apresentação e Objetivos}
+
+As métricas para atuar no controle do sistema requer a avaliação de possíveis estados
+futuros. As sobrecargas e déficits precisam ser manejadas com antecedência devido à
+inércia mecânica do sistema diesel ou indisponibilidade do banco de bateria. Por
+isso, análise preditiva é utilizada para mitigar essas incertezas.
+
+Inteligência artificial tem adquirido relevância na área de geração de
+energia, com diversos artigos lançados sobre o tema recentemente.
+
+O trabalho propõe como objetivo geral estudar o uso de redes neurais na previsão
+de múltiplas séries temporais: eólica e solar. Através disso, investigar
+a aplicabilidade de análise preditiva para estratégias de controle de
+um sistema híbrido.

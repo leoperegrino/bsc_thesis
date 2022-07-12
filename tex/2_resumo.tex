@@ -1,0 +1,35 @@
+% !TEX root = 0_tcc.tex
+\clearpage
+
+\section*{\centering Resumo}
+
+Um sistema híbrido é composto por múltiplas fontes de energia.
+Aquelas que possuem dependência meteorológica constituem incerteza no suprimento
+da demanda, podendo comprometer o funcionamento dos serviços abastecidos. Por
+isso, o operador do sistema precisa estar apto a prever o balanço energético e
+decidir a melhor estratégia de controle.
+
+A previsão de diversas séries temporais é uma tarefa difícil de ser feita
+analiticamente por isso métodos envolvendo inteligência artificial tem sido
+abordados. Dados históricos são necessários para serem processados mas os
+modelos possuem grande capacidade de generalização, adequando-se ao cenário.
+
+O presente trabalho teve como objetivo estudar a viabilidade de análise
+preditiva em sistemas híbridos utilizando aprendizado de máquina. As fontes
+abordadas foram eólica, solar e diesel, juntamente com reserva de banco de
+baterias.  Os dados utilizados foram retirados da rede \acrshort{sonda}, fornecidos pelo
+\acrshort{inpe}, na estação meteorológica de Petrolina.
+
+Foi utilizado aprendizado supervisionado através de rede neurais. O algoritmo
+aplicado foi uma \emph{Recurrent Neural Network}. Foi usada a linguagem
+Python com auxílio de bibliotecas como \emph{numpy}, \emph{sklearn} e \emph{tensorflow}.
+
+As redes neurais apresentaram bom desempenho em horizontes de curto prazo mas
+degeneraram com passar dos timesteps. A estratégia preditiva teve acurácia de
+73\% e foi capaz de obter resultados similares às tradicionais. Ainda há espaço
+para melhora em trabalhos futuros.
+
+\vfill
+\textbf{Palavras-chave:} Série Temporal, Aprendizado de Máquina, Sistemas
+Híbridos, Redes Neurais
+\vfill
