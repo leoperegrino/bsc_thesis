@@ -1,5 +1,7 @@
 # BSc Thesis
 
+The pdf document can be found [here].
+
 ## Abstract
 
 A hybrid system is composed of multiple energy sources. Those with weather
@@ -46,6 +48,6 @@ Processing "0_tcc.tex" (size: 4.2 kB, last modified: 07/12/2022
 (PDFLaTeX) PDFLaTeX engine .............................. SUCCESS
 (PDFLaTeX) PDFLaTeX engine .............................. SUCCESS
 ```
-
+[here]: <https://github.com/leoperegrino/bsc_thesis/blob/master/tex/0_tcc.pdf>
 [SONDA]: <http://sonda.ccst.inpe.br/>
 [INPE]: <https://www.gov.br/inpe/pt-br>
