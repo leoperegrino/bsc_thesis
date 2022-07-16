@@ -1,11 +1,13 @@
 name: build thesis
 on: [push]
 jobs:
-  arara:
+  build_latex:
     runs-on: ubuntu-latest
     steps:
       - name: set up git repository
         uses: actions/checkout@v3
+      - name: print source tree
+        run: tree
       - name: compile latex document
         uses: xu-cheng/latex-action@v2
         with:
