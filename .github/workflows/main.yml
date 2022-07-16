@@ -12,7 +12,7 @@ jobs:
           working_directory: tex
           compiler: arara
           args: --verbose
-          root_file: 0_tcc.tex
+          root_file: 00_tcc.tex
       - name: Generate release tag
         id: tag
         run: |
@@ -24,4 +24,4 @@ jobs:
         with:
           tag_name: ${{ steps.tag.outputs.release_tag }}
           name: Predictive Dispatch Strategies of Hybrid Energy System with Neural Networks
-          files: tex/0_tcc.pdf
+          files: tex/00_tcc.pdf
