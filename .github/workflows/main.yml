@@ -13,9 +13,15 @@ jobs:
           compiler: arara
           args: --verbose
           root_file: 0_tcc.tex
+      - name: Generate release tag
+        id: tag
+        run: |
+          echo "::set-output name=release_tag::UserBuild_$(date +"%Y.%m.%d_%H-%M")"
       - name: release thesis
         uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
+          tag_name: ${{ steps.tag.outputs.release_tag }}
           name: Predictive Dispatch Strategies of Hybrid Energy System with Neural Networks
           files: tex/0_tcc.pdf
