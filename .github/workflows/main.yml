@@ -9,7 +9,7 @@ jobs:
       - name: compile latex document
         uses: xu-cheng/latex-action@v2
         with:
-          working-directory: tex
+          working_directory: tex
           compiler: arara
           args: --verbose
           root_file: 0_tcc.tex
