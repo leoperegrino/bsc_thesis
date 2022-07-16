@@ -17,6 +17,5 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref }}
-          target_commitish: ${{ github.sha }}
           name: Predictive Dispatch Strategies of Hybrid Energy System with Neural Networks
           files: tex/0_tcc.pdf
