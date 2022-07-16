@@ -6,13 +6,12 @@ jobs:
     steps:
       - name: set up git repository
         uses: actions/checkout@v3
-      - name: print source tree
-        run: tree
       - name: compile latex document
         uses: xu-cheng/latex-action@v2
         with:
+          working-directory: tex
           compiler: arara
-          args: --verbose --working-directory tex
+          args: --verbose
           root_file: 0_tcc.tex
       - name: release thesis
         uses: softprops/action-gh-release@v1
