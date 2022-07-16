@@ -9,8 +9,9 @@ jobs:
       - name: compile latex document
         uses: xu-cheng/latex-action@v2
         with:
-          root_file: 0_tcc.tex
+          compiler: arara
           args: --verbose --working-directory tex
+          root_file: 0_tcc.tex
       - name: release thesis
         uses: softprops/action-gh-release@v1
         with:
