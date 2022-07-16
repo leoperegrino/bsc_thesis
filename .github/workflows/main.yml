@@ -1,0 +1,18 @@
+name: build thesis
+on: [push]
+jobs:
+  arara:
+    runs-on: ubuntu-latest
+    steps:
+      - name: set up git repository
+        uses: actions/checkout@v3
+      - name: compile latex document
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: 0_tcc.tex
+          args: --verbose --working-directory tex
+      - name: release thesis
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Predictive Dispatch Strategies of Hybrid Energy System with Neural Networks
+          files: tex/0_tcc.pdf
