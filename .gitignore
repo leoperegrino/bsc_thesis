@@ -18,6 +18,7 @@
 *.nlo
 *.nls
 *.out
+*.pdf
 *.run.xml
 *.snm
 *.tdo

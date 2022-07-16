@@ -30,7 +30,7 @@ future work.
 
 ## Compiling
 ```bash
-arara --working-directory tex 0_tcc.tex
+arara --working-directory tex 00_tcc.tex
 ```
 ```
   __ _ _ __ __ _ _ __ __ _
