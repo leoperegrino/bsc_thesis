@@ -1,6 +1,6 @@
 # BSc Thesis
 
-The pdf document can be found [here].
+The pdf document can be found in the [releases].
 
 ## Abstract
 
@@ -48,6 +48,6 @@ Processing "0_tcc.tex" (size: 4.2 kB, last modified: 07/12/2022
 (PDFLaTeX) PDFLaTeX engine .............................. SUCCESS
 (PDFLaTeX) PDFLaTeX engine .............................. SUCCESS
 ```
-[here]: <https://github.com/leoperegrino/bsc_thesis/blob/master/tex/0_tcc.pdf>
+[releases]: <https://github.com/leoperegrino/bsc_thesis/releases>
 [SONDA]: <http://sonda.ccst.inpe.br/>
 [INPE]: <https://www.gov.br/inpe/pt-br>
